@@ -1,0 +1,1 @@
+Classes and objects in C are the basic concepts of object-oriented programming – PLO. Object-oriented programming – extension of structured programming, where the basic concepts are the concepts of classes and objects. The main difference between the C programming language from C is, With that in no classes, C language and therefore does not support the PLO, Unlike C .
