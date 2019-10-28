@@ -40,13 +40,16 @@ Type chooseEncode() {
 }
 
 void emulateRecipient(Type type) {
-    init("rec", "dis"); /// this is a crutch. Must be placed in every
-                        /// recipient_protocol and dispatcher_protocol -method
-                        /// for stable performance of transmission channel.
+    init("rec", "dis"); /// this is a crutch. it shouldn't be here, but we have it
     switch (type) {
         case Type::DIFFI_HELLMAN: {
             Diffi_Hellman session;
+            cout << "\nMy shared key is " << session.sharedKey <<
+                ". Just reporting, nothing more. I won`t tell you my secret key." << endl;
+            cout << "processing..." << endl;
             session.recipient_protocol();
+            cout << "\nI`m abonent B. My secret number is " << session.getEvaluatedNumber() <<
+                    "; abonent A has equal secret number" << endl;
             break;
         }
         case Type::EL_GHAMAL: {
@@ -68,13 +71,16 @@ void emulateRecipient(Type type) {
 }
 
 void emulateDispatcher(Type type) {
-    init("dis", "rec"); /// this is a crutch. Must be placed in every
-                        /// recipient_protocol and dispatcher_protocol -method
-                        /// for stable performance of transmission channel.
+    init("dis", "rec"); /// this is a crutch. it shouldn't be here, but we have it
     switch (type) {
         case Type::DIFFI_HELLMAN: {
             Diffi_Hellman session;
+            cout << "\nMy shared key is " << session.sharedKey <<
+                ". Just reporting, nothing more. I won`t tell you my secret key." << endl;
+            cout << "processing..." << endl;
             session.dispatcher_protocol();
+            cout << "\nI`m abonent A. My secret number is " << session.getEvaluatedNumber() <<
+                    "; abonent B has equal secret number" << endl;
             break;
         }
         case Type::EL_GHAMAL: {
@@ -118,5 +124,6 @@ void chooseMode(Type type) {
 int main() {
     Type type = chooseEncode();
     chooseMode(type);
+    system("pause");
     return 0;
 }

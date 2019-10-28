@@ -46,13 +46,14 @@ class Diffi_Hellman : public Encoded_Structure {
         Diffi_Hellman();
         void recipient_protocol() override final;
         void dispatcher_protocol() override final;
+        int getEvaluatedNumber() { return evaluatedNumber; };
     protected:
         void takeSharedKey() override final;
         void giveSharedKey() override final;
         void decode() override final;
         void encode() override final;
     private:
-        int hiddenKey, takenSharedKey;
+        int hiddenKey, takenSharedKey, evaluatedNumber;
 
 };
 

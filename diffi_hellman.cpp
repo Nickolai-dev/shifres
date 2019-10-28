@@ -49,13 +49,8 @@ inline void Diffi_Hellman::encode() {
 
 void Diffi_Hellman::recipient_protocol() {
     Environment &Environment = Environment::Instance();
-    cout << "\nMy shared key is " << sharedKey <<
-        ". Just reporting, nothing more. I won`t tell you my secret key." << endl;
-    cout << "processing..." << endl;
     takeSharedKey();
-    int Z = g_in_x_mod_p(takenSharedKey, hiddenKey, Environment.encrMaxNumber);
-    cout << "\nI`m abonent B. My secret number is " << Z << "; abonent A has equal secret number" << endl;
-    system("pause");
+    evaluatedNumber = g_in_x_mod_p(takenSharedKey, hiddenKey, Environment.encrMaxNumber);
     /*try {
         while(true){
             uint8_t byte = takeByte();
@@ -70,13 +65,8 @@ void Diffi_Hellman::recipient_protocol() {
 
 void Diffi_Hellman::dispatcher_protocol() {
     Environment &Environment = Environment::Instance();
-    cout << "\nMy shared key is " << sharedKey <<
-        ". Just reporting, nothing more. I won`t tell you my secret key." << endl;
-    cout << "processing..." << endl;
     giveSharedKey();
-    int Z = g_in_x_mod_p(takenSharedKey, hiddenKey, Environment.encrMaxNumber);
-    cout << "\nI`m abonent A. My secret number is " << Z << "; abonent B has equal secret number" << endl;
-    system("pause");
+    evaluatedNumber = g_in_x_mod_p(takenSharedKey, hiddenKey, Environment.encrMaxNumber);
     /*try {
         while(true) {
             uint8_t byte = read();
