@@ -12,11 +12,11 @@ using namespace std;
 
 class Environment {
     public:
-        int p, g;
+        int encrMaxNumber, encrSuppNumber;
         string input, output;
         static Environment& Instance() { static Environment s; return s; }
     private:
-        Environment() { p = 1000667, g = 500333; input = "input.txt", output = "output.txt"; }
+        Environment() { encrMaxNumber = 1000667, encrSuppNumber = 500333; input = "input.txt", output = "output.txt"; }
         ~Environment() {  }
         Environment(Environment const&) = delete;
         Environment& operator= (Environment const&) = delete;

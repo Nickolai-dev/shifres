@@ -55,7 +55,7 @@ void Encoded_Structure::write(int data) {
         return;
     }
     file << static_cast<uint8_t>(data);
-    file.flush();
+    file.flush(); // TODO: delete
 }
 
 uint8_t Encoded_Structure::takeByte() {

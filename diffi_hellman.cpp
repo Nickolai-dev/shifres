@@ -2,8 +2,8 @@
 
 Diffi_Hellman::Diffi_Hellman() {
     Environment &Environment = Environment::Instance();
-    hiddenKey = gen_k(Environment.p);
-    sharedKey = g_in_x_mod_p(Environment.g, hiddenKey, Environment.p);
+    hiddenKey = gen_k(Environment.encrMaxNumber);
+    sharedKey = g_in_x_mod_p(Environment.encrSuppNumber, hiddenKey, Environment.encrMaxNumber);
 };
 
 void Diffi_Hellman::takeSharedKey() {
@@ -48,8 +48,15 @@ inline void Diffi_Hellman::encode() {
 }
 
 void Diffi_Hellman::recipient_protocol() {
+    Environment &Environment = Environment::Instance();
+    cout << "\nMy shared key is " << sharedKey <<
+        ". Just reporting, nothing more. I won`t tell you my secret key." << endl;
+    cout << "processing..." << endl;
     takeSharedKey();
-    try {
+    int Z = g_in_x_mod_p(takenSharedKey, hiddenKey, Environment.encrMaxNumber);
+    cout << "\nI`m abonent B. My secret number is " << Z << "; abonent A has equal secret number" << endl;
+    system("pause");
+    /*try {
         while(true){
             uint8_t byte = takeByte();
             // decoding...
@@ -58,12 +65,19 @@ void Diffi_Hellman::recipient_protocol() {
     }
     catch(FileStat) {
         write(EOF);
-    }
+    }*/
 }
 
 void Diffi_Hellman::dispatcher_protocol() {
+    Environment &Environment = Environment::Instance();
+    cout << "\nMy shared key is " << sharedKey <<
+        ". Just reporting, nothing more. I won`t tell you my secret key." << endl;
+    cout << "processing..." << endl;
     giveSharedKey();
-    try {
+    int Z = g_in_x_mod_p(takenSharedKey, hiddenKey, Environment.encrMaxNumber);
+    cout << "\nI`m abonent A. My secret number is " << Z << "; abonent B has equal secret number" << endl;
+    system("pause");
+    /*try {
         while(true) {
             uint8_t byte = read();
             // encoding...
@@ -72,5 +86,5 @@ void Diffi_Hellman::dispatcher_protocol() {
     }
     catch(FileStat) {
         sendEOF();
-    }
+    }*/
 }
