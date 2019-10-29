@@ -40,7 +40,7 @@ Type chooseEncode() {
 }
 
 void emulateRecipient(Type type) {
-    init("rec", "dis"); /// this is a crutch. it shouldn't be here, but we have it
+    init(".recipient", ".dispatcher"); /// this is a crutch. it shouldn't be here, but we have it
     switch (type) {
         case Type::DIFFI_HELLMAN: {
             Diffi_Hellman session;
@@ -71,7 +71,7 @@ void emulateRecipient(Type type) {
 }
 
 void emulateDispatcher(Type type) {
-    init("dis", "rec"); /// this is a crutch. it shouldn't be here, but we have it
+    init(".dispatcher", ".recipient"); /// this is a crutch. it shouldn't be here, but we have it
     switch (type) {
         case Type::DIFFI_HELLMAN: {
             Diffi_Hellman session;
@@ -124,6 +124,6 @@ void chooseMode(Type type) {
 int main() {
     Type type = chooseEncode();
     chooseMode(type);
-    system("pause");
+    system("pause"); //TODO remove
     return 0;
 }

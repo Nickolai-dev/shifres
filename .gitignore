@@ -1,5 +1,11 @@
 obj/*
-sh/*
 bin/*
-*/rec
-*/dis
+*.dll
+*.a
+*.lib
+*.def
+*.o
+*.
+!.gitignore
+rec
+dis

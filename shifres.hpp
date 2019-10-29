@@ -28,10 +28,10 @@ class Encoded_Structure {
         virtual void dispatcher_protocol() = 0;
         enum class FileStat{ EXIT_SUCCESS, FAILED, UNNAMED_ERROR };
     protected:
-        virtual void decode();// = 0;
-        virtual void encode();// = 0;
-        virtual void takeSharedKey();// = 0;
-        virtual void giveSharedKey();// = 0;
+        inline virtual void decode() = 0;
+        inline virtual void encode() = 0;
+        virtual void takeSharedKey() = 0;
+        virtual void giveSharedKey() = 0;
         void waitTilReady(WaitMode m);
         uint8_t takeByte();
         void sendByte(uint8_t data);
@@ -47,31 +47,49 @@ class Diffi_Hellman : public Encoded_Structure {
         void recipient_protocol() override final;
         void dispatcher_protocol() override final;
         int getEvaluatedNumber() { return evaluatedNumber; };
-    protected:
-        void takeSharedKey() override final;
-        void giveSharedKey() override final;
-        void decode() override final;
-        void encode() override final;
     private:
+        void takeSharedKey() override;
+        void giveSharedKey() override;
+        inline void decode() override;
+        inline void encode() override;
         int hiddenKey, takenSharedKey, evaluatedNumber;
 
 };
 
 class Shamir : public Encoded_Structure {
     public:
-        void recipient_protocol() override final{};
-        void dispatcher_protocol() override final{};
+        Shamir();
+        void recipient_protocol() override final;
+        void dispatcher_protocol() override final;
+    private:
+        void takeSharedKey() override;
+        void giveSharedKey() override;
+        inline void decode() override;
+        inline void encode() override;
+        int hiddenKey1, hiddenKey2;
 };
 
 class El_Ghamal : public Encoded_Structure {
     public:
-        void recipient_protocol() override final{};
-        void dispatcher_protocol() override final{};
+        El_Ghamal();
+        void recipient_protocol() override final;
+        void dispatcher_protocol() override final;
+    private:
+        void takeSharedKey() override;
+        void giveSharedKey() override;
+        inline void decode() override;
+        inline void encode() override;
 };
 
 class RSA : public Encoded_Structure {
     public:
-        void recipient_protocol() override final{};
-        void dispatcher_protocol() override final{};
+        RSA();
+        void recipient_protocol() override final;
+        void dispatcher_protocol() override final;
+    private:
+        void takeSharedKey() override;
+        void giveSharedKey() override;
+        inline void decode() override;
+        inline void encode() override;
 };
 

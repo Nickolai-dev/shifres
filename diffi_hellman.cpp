@@ -51,30 +51,10 @@ void Diffi_Hellman::recipient_protocol() {
     Environment &Environment = Environment::Instance();
     takeSharedKey();
     evaluatedNumber = g_in_x_mod_p(takenSharedKey, hiddenKey, Environment.encrMaxNumber);
-    /*try {
-        while(true){
-            uint8_t byte = takeByte();
-            // decoding...
-            write(byte);
-        }
-    }
-    catch(FileStat) {
-        write(EOF);
-    }*/
 }
 
 void Diffi_Hellman::dispatcher_protocol() {
     Environment &Environment = Environment::Instance();
     giveSharedKey();
     evaluatedNumber = g_in_x_mod_p(takenSharedKey, hiddenKey, Environment.encrMaxNumber);
-    /*try {
-        while(true) {
-            uint8_t byte = read();
-            // encoding...
-            sendByte(byte);
-        }
-    }
-    catch(FileStat) {
-        sendEOF();
-    }*/
 }
