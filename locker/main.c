@@ -60,7 +60,7 @@ int DLL_EXPORT readBytes(void *bytes, int cnt) {
     do{ errno=0;
     invFile = _fsopen(inverseFilename, "rb", _SH_DENYRW);
     }while(errno!=0);
-    for(int i = cnt; i > 0; i--) {
+    for(int i = 0; i < cnt; i++) {
         int n = fgetc(invFile);
         if(feof(invFile)) return EOF;
         *((uint8_t*)bytes+i) = n;
@@ -82,7 +82,7 @@ void DLL_EXPORT putBytes(void *bytes, int cnt) {
     do{ errno=0;
     stFile = _fsopen(straightFilename, "wb", _SH_DENYRW);
     }while(errno!=0);
-    for(int i = cnt; i > 0; i--) {
+    for(int i = 0; i < cnt; i++) {
         fputc( *((uint8_t*)bytes+i), stFile);
     }
 }
