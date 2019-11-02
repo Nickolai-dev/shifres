@@ -20,13 +20,11 @@ Shamir::Shamir() {
 }
 
 inline void Shamir::decode(uint8_t &byte) {
-    static Environment &Env = Environment::Instance();
-    byte = g_pow_x_mod_p(byte, hiddenKey2, Env.encrMaxNumber);
+    byte = g_pow_x_mod_p(byte, hiddenKey2, Environment::Instance().encrMaxNumber);
 }
 
 inline void Shamir::encode(uint8_t &byte) {
-    static Environment &Env = Environment::Instance();
-    byte = g_pow_x_mod_p(byte, hiddenKey1, Env.encrMaxNumber);
+    byte = g_pow_x_mod_p(byte, hiddenKey1, Environment::Instance().encrMaxNumber);
 }
 
 void Shamir::recipient_protocol() {

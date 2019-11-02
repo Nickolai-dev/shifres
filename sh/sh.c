@@ -28,10 +28,10 @@ int g_pow_x_mod_p(int g, int x, int p) {
     return s;
 }
 
+#define MOV(A, B, LEN) \
+for (int I = 0; I< LEN; I++)\
+    B[I] = A[I];
 int reverse_c_mod_p(int c, int p) {
-    #define MOV(A, B, LEN) \
-    for (int I = 0; I< LEN; I++)\
-        B[I] = A[I];
     int U[2] = {p, 0}, V[2] = {c%p?c:0, 1}, T[2], q;
     while (V[0] != 0) {
         q = U[0]/V[0]; T[0] = U[0]%V[0]; T[1] = U[1]-q*V[1];
@@ -39,10 +39,21 @@ int reverse_c_mod_p(int c, int p) {
     }
     while(U[1] < 0) U[1]+=p;
     return U[1];
-    #undef MOV
+}
+int gcd(int c, int p) {
+    int U[3] = {p, 1, 0}, V[3] = {c%p?c:0, 0, 1}, T[3], q;
+    while (V[0] != 0) {
+        q = U[0]/V[0];
+        T[0] = U[0]%V[0];
+        T[1] = U[1]-q*V[1];
+        T[2] = U[2]-q*V[2];
+        MOV(V, U, 3);
+        MOV(T, V, 3);
+    }
+    return U[0];
 }
 // shamir`s
-void choose_c_d(int *c, int *d, int p){ *c=2+rand()%(p-1-2); *d=reverse_c_mod_p(*c, p-1); if(d)return; choose_c_d(c, d, p); }
+void choose_c_d(int *c, int *d, int p){ *c=2+rand()%(p-1-2); *d=reverse_c_mod_p(*c, p-1); if(*d > 1&&gcd(*c,p-1)==1&&*c!=*d)return; choose_c_d(c, d, p); }
 
 // el-ghamal`s
 int gen_k(int p){ return 1+rand()%(p-2); }
