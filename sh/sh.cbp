@@ -26,6 +26,9 @@
 				<Linker>
 					<Add option="-s" />
 				</Linker>
+				<ExtraCommands>
+					<Add after='gcc.exe -shared   -Wl,--dll -L&quot;C:\Program Files (x86)\CodeBlocks\MinGW\lib\gcc\mingw32\6.3.0&quot; obj\Release\sh.o  -o ..\bin\Release\libsh.dll -s' />
+				</ExtraCommands>
 			</Target>
 		</Build>
 		<Compiler>

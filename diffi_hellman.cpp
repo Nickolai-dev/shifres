@@ -3,7 +3,7 @@
 Diffi_Hellman::Diffi_Hellman() {
     Environment &Environment = Environment::Instance();
     hiddenKey = gen_k(Environment.encrMaxNumber);
-    sharedKey = g_in_x_mod_p(Environment.encrSuppNumber, hiddenKey, Environment.encrMaxNumber);
+    sharedKey = g_pow_x_mod_p(Environment.encrSuppNumber, hiddenKey, Environment.encrMaxNumber);
 };
 
 void Diffi_Hellman::takeSharedKey() {
@@ -41,20 +41,20 @@ void Diffi_Hellman::giveSharedKey() {
     takenSharedKey = tk.i;
 }
 
-inline void Diffi_Hellman::decode() {
+inline void Diffi_Hellman::decode(uint8_t &byte) {
 }
 
-inline void Diffi_Hellman::encode() {
+inline void Diffi_Hellman::encode(uint8_t &byte) {
 }
 
 void Diffi_Hellman::recipient_protocol() {
     Environment &Environment = Environment::Instance();
     takeSharedKey();
-    evaluatedNumber = g_in_x_mod_p(takenSharedKey, hiddenKey, Environment.encrMaxNumber);
+    evaluatedNumber = g_pow_x_mod_p(takenSharedKey, hiddenKey, Environment.encrMaxNumber);
 }
 
 void Diffi_Hellman::dispatcher_protocol() {
     Environment &Environment = Environment::Instance();
     giveSharedKey();
-    evaluatedNumber = g_in_x_mod_p(takenSharedKey, hiddenKey, Environment.encrMaxNumber);
+    evaluatedNumber = g_pow_x_mod_p(takenSharedKey, hiddenKey, Environment.encrMaxNumber);
 }

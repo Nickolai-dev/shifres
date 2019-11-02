@@ -1,3 +1,8 @@
 # depslib dependency file v1.0
 1558172799 source:c:\users\user\desktop\sh\main.c
 
+1572532590 source:c:\users\user\desktop\hwИнф\Прог,2курс\001\sh\sh.c
+	<time.h>
+	<stdlib.h>
+	<stdint-gcc.h>
+

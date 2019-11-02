@@ -2,9 +2,7 @@
 #include "locker.h"
 #include <fstream>
 #include <iostream>
-#ifdef EXIT_SUCCESS
-#   undef EXIT_SUCCESS
-#endif
+#undef EXIT_SUCCESS
 
 enum Mode {RECIPIENT=1, DISPATCHER};
 
@@ -28,13 +26,13 @@ class Encoded_Structure {
         virtual void dispatcher_protocol() = 0;
         enum class FileStat{ EXIT_SUCCESS, FAILED, UNNAMED_ERROR };
     protected:
-        inline virtual void decode() = 0;
-        inline virtual void encode() = 0;
+        inline virtual void decode(uint8_t &byte) = 0;
+        inline virtual void encode(uint8_t &byte) = 0;
         virtual void takeSharedKey() = 0;
         virtual void giveSharedKey() = 0;
         void waitTilReady(WaitMode m);
         uint8_t takeByte();
-        void sendByte(uint8_t data);
+        uint8_t sendByte(uint8_t data);
         void sendEOF();
         void write(int byte);
         int read();
@@ -50,8 +48,8 @@ class Diffi_Hellman : public Encoded_Structure {
     private:
         void takeSharedKey() override;
         void giveSharedKey() override;
-        inline void decode() override;
-        inline void encode() override;
+        inline void decode(uint8_t &byte) override;
+        inline void encode(uint8_t &byte) override;
         int hiddenKey, takenSharedKey, evaluatedNumber;
 
 };
@@ -64,8 +62,8 @@ class Shamir : public Encoded_Structure {
     private:
         void takeSharedKey() override;
         void giveSharedKey() override;
-        inline void decode() override;
-        inline void encode() override;
+        inline void decode(uint8_t &byte) override;
+        inline void encode(uint8_t &byte) override;
         int hiddenKey1, hiddenKey2;
 };
 
@@ -77,8 +75,8 @@ class El_Ghamal : public Encoded_Structure {
     private:
         void takeSharedKey() override;
         void giveSharedKey() override;
-        inline void decode() override;
-        inline void encode() override;
+        inline void decode(uint8_t &byte) override;
+        inline void encode(uint8_t &byte) override;
 };
 
 class RSA : public Encoded_Structure {
@@ -89,7 +87,7 @@ class RSA : public Encoded_Structure {
     private:
         void takeSharedKey() override;
         void giveSharedKey() override;
-        inline void decode() override;
-        inline void encode() override;
+        inline void decode(uint8_t &byte) override;
+        inline void encode(uint8_t &byte) override;
 };
 

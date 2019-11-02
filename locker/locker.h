@@ -17,12 +17,12 @@ extern "C"
 {
 #endif
 void DLL_EXPORT init(const char* straightChannel, const char* inverseChannel);
-int DLL_EXPORT readByte(); /// only from reverse channel        /// !
-void DLL_EXPORT putByte(int data); /// only to straight channel /// !
-void DLL_EXPORT unlock_straight_channel();                      /// theese six methods should be used with caution (inf-loop)
-void DLL_EXPORT unlock_reverse_channel();                       /// !
-void DLL_EXPORT lock_reverse_channel();                         /// !
-void DLL_EXPORT lock_straight_channel();                        /// !
+int DLL_EXPORT readByte(); /// only from reverse channel
+void DLL_EXPORT putByte(int data); /// only to straight channel
+void DLL_EXPORT unlock_straight_channel();
+void DLL_EXPORT unlock_reverse_channel(); /// this function don`t tell, if file locked 100% probability
+void DLL_EXPORT lock_reverse_channel(); /// this function don`t tell, if file locked 100% probability
+void DLL_EXPORT lock_straight_channel();
 void DLL_EXPORT trylock_reverse_channel();
 void DLL_EXPORT trylock_straight_channel();
 #ifdef __cplusplus
