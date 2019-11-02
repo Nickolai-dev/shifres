@@ -56,7 +56,17 @@ int DLL_EXPORT readByte() {
     fgetc(invFile);
     return feof(invFile) ? n : EOF;
 }
-
+int DLL_EXPORT readBytes(void *bytes, int cnt) {
+    do{ errno=0;
+    invFile = _fsopen(inverseFilename, "rb", _SH_DENYRW);
+    }while(errno!=0);
+    for(int i = cnt; i > 0; i--) {
+        int n = fgetc(invFile);
+        if(feof(invFile)) return EOF;
+        *((uint8_t*)bytes+i) = n;
+    }
+    return 0;
+}
 void DLL_EXPORT putByte(int data) {
     do{ errno=0;
     stFile = _fsopen(straightFilename, "wb", _SH_DENYRW);
@@ -68,7 +78,14 @@ void DLL_EXPORT putByte(int data) {
         fputc(0x01, stFile);
     }
 }
-
+void DLL_EXPORT putBytes(void *bytes, int cnt) {
+    do{ errno=0;
+    stFile = _fsopen(straightFilename, "wb", _SH_DENYRW);
+    }while(errno!=0);
+    for(int i = cnt; i > 0; i--) {
+        fputc( *((uint8_t*)bytes+i), stFile);
+    }
+}
 int __attribute__((__stdcall__)) DllMainCRTStartup(int hinstDLL, int fdwReason, void* lpvReserved){
     if(fdwReason == 0) remove(inverseFilename), remove(straightFilename);
     return 1;

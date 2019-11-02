@@ -4,11 +4,11 @@ RSA::RSA() {
 
 }
 
-inline void RSA::decode(uint8_t &byte) {
+inline void RSA::decode(int &byte) {
 
 }
 
-inline void RSA::encode(uint8_t &byte) {
+inline void RSA::encode(int &byte) {
 
 }
 

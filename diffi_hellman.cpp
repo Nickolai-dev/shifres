@@ -41,10 +41,10 @@ void Diffi_Hellman::giveSharedKey() {
     takenSharedKey = tk.i;
 }
 
-inline void Diffi_Hellman::decode(uint8_t &byte) {
+inline void Diffi_Hellman::decode(int &byte) {
 }
 
-inline void Diffi_Hellman::encode(uint8_t &byte) {
+inline void Diffi_Hellman::encode(int &byte) {
 }
 
 void Diffi_Hellman::recipient_protocol() {

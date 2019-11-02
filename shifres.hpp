@@ -26,8 +26,8 @@ class Encoded_Structure {
         virtual void dispatcher_protocol() = 0;
         enum class FileStat{ EXIT_SUCCESS, FAILED, UNNAMED_ERROR };
     protected:
-        inline virtual void decode(uint8_t &byte) = 0;
-        inline virtual void encode(uint8_t &byte) = 0;
+        inline virtual void decode(int &byte) = 0;
+        inline virtual void encode(int &byte) = 0;
         virtual void takeSharedKey() = 0;
         virtual void giveSharedKey() = 0;
         void waitTilReady(WaitMode m);
@@ -48,8 +48,8 @@ class Diffi_Hellman : public Encoded_Structure {
     private:
         void takeSharedKey() override;
         void giveSharedKey() override;
-        inline void decode(uint8_t &byte) override;
-        inline void encode(uint8_t &byte) override;
+        inline void decode(int &byte) override;
+        inline void encode(int &byte) override;
         int hiddenKey, takenSharedKey, evaluatedNumber;
 
 };
@@ -62,8 +62,8 @@ class Shamir : public Encoded_Structure {
     private:
         void takeSharedKey() override;
         void giveSharedKey() override;
-        inline void decode(uint8_t &byte) override;
-        inline void encode(uint8_t &byte) override;
+        inline void decode(int &byte) override;
+        inline void encode(int &byte) override;
         int hiddenKey1, hiddenKey2;
 };
 
@@ -75,8 +75,8 @@ class El_Ghamal : public Encoded_Structure {
     private:
         void takeSharedKey() override;
         void giveSharedKey() override;
-        inline void decode(uint8_t &byte) override;
-        inline void encode(uint8_t &byte) override;
+        inline void decode(int &byte) override;
+        inline void encode(int &byte) override;
 };
 
 class RSA : public Encoded_Structure {
@@ -87,7 +87,7 @@ class RSA : public Encoded_Structure {
     private:
         void takeSharedKey() override;
         void giveSharedKey() override;
-        inline void decode(uint8_t &byte) override;
-        inline void encode(uint8_t &byte) override;
+        inline void decode(int &byte) override;
+        inline void encode(int &byte) override;
 };
 

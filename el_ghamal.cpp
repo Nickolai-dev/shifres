@@ -4,11 +4,11 @@ El_Ghamal::El_Ghamal() {
 
 }
 
-inline void El_Ghamal::decode(uint8_t &byte) {
+inline void El_Ghamal::decode(int &byte) {
 
 }
 
-inline void El_Ghamal::encode(uint8_t &byte) {
+inline void El_Ghamal::encode(int &byte) {
 
 }
 
