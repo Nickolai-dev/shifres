@@ -22,11 +22,11 @@ int DLL_EXPORT readBytes(void *bytes, int cnt); /// only from reverse channel
 void DLL_EXPORT putByte(int data); /// only to straight channel
 void DLL_EXPORT putBytes(void *bytes, int cnt); /// only to straight channel
 void DLL_EXPORT unlock_straight_channel();
-void DLL_EXPORT unlock_reverse_channel(); /// this function don`t tell, if file locked 100% probability
-void DLL_EXPORT lock_reverse_channel(); /// this function don`t tell, if file locked 100% probability
+void DLL_EXPORT unlock_reverse_channel();
+void DLL_EXPORT lock_reverse_channel();
 void DLL_EXPORT lock_straight_channel();
-void DLL_EXPORT trylock_reverse_channel();
-void DLL_EXPORT trylock_straight_channel();
+void DLL_EXPORT trylock_reverse_channel(); /// this function don`t tell, if file locked 100% probability
+void DLL_EXPORT trylock_straight_channel(); /// this function don`t tell, if file locked 100% probability
 #ifdef __cplusplus
 }
 #endif

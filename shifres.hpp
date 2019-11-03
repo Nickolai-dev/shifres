@@ -69,10 +69,12 @@ class Shamir : public Encoded_Structure {
 
 class El_Ghamal : public Encoded_Structure {
     public:
+        int sharedKey;
         El_Ghamal();
         void recipient_protocol() override final;
         void dispatcher_protocol() override final;
     private:
+        int hiddenKey, takenSharedKey;
         void takeSharedKey() override;
         void giveSharedKey() override;
         inline void decode(int &byte) override;
