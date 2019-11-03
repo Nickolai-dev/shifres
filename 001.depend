@@ -7,7 +7,7 @@
 	<typeinfo>
 	"shifres.hpp"
 
-1572737171 c:\users\user\desktop\hwИнф\Прог,2курс\001\shifres.hpp
+1572747647 c:\users\user\desktop\hwИнф\Прог,2курс\001\shifres.hpp
 	"sh.h"
 	"locker.h"
 	<fstream>
@@ -27,11 +27,13 @@
 1572729246 source:c:\users\user\desktop\hwИнф\Прог,2курс\001\shamir.cpp
 	"shifres.hpp"
 
-1572727062 source:c:\users\user\desktop\hwИнф\Прог,2курс\001\el_ghamal.cpp
+1572742390 source:c:\users\user\desktop\hwИнф\Прог,2курс\001\el_ghamal.cpp
 	"shifres.hpp"
 
-1572727062 source:c:\users\user\desktop\hwИнф\Прог,2курс\001\rsa.cpp
+1572794564 source:c:\users\user\desktop\hwИнф\Прог,2курс\001\rsa.cpp
 	"shifres.hpp"
+	<string.h>
+	<boost/multiprecision/cpp_int.hpp>
 
 1572739902 c:\users\user\desktop\hwИнф\Прог,2курс\001\locker\locker.h
 	<stdint-gcc.h>

@@ -2,6 +2,8 @@
 #include "locker.h"
 #include <fstream>
 #include <iostream>
+#include <boost/multiprecision/cpp_int.hpp> //1_71_0    // I could place this only in .hpp?
+#include <boost/random.hpp>                             //
 #undef EXIT_SUCCESS
 
 enum Mode {RECIPIENT=1, DISPATCHER};
@@ -84,6 +86,7 @@ class El_Ghamal : public Encoded_Structure {
 class RSA : public Encoded_Structure {
     public:
         RSA();
+        boost::multiprecision::uint1024_t sharedKey;
         void recipient_protocol() override final;
         void dispatcher_protocol() override final;
     private:
@@ -92,4 +95,3 @@ class RSA : public Encoded_Structure {
         inline void decode(int &byte) override;
         inline void encode(int &byte) override;
 };
-
