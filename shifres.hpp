@@ -1,12 +1,15 @@
-#include "sh.h"
 #include "locker.h"
 #include <fstream>
 #include <iostream>
+#include <boost/multiprecision/cpp_int.hpp> //1_71_0    // I could place this only in .hpp?
+#include <boost/random.hpp>                             //
 #undef EXIT_SUCCESS
+#include "sh.h"
 
 enum Mode {RECIPIENT=1, DISPATCHER};
 
 using namespace std;
+using namespace boost::multiprecision;
 
 class Environment {
     public:
@@ -84,6 +87,7 @@ class El_Ghamal : public Encoded_Structure {
 class RSA : public Encoded_Structure {
     public:
         RSA();
+        uint1024_t sharedKey;
         void recipient_protocol() override final;
         void dispatcher_protocol() override final;
     private:
@@ -93,3 +97,10 @@ class RSA : public Encoded_Structure {
         inline void encode(int &byte) override;
 };
 
+//namespace utilities {
+
+//bool ferma(const uint1024_t &num);
+uint1024_t pows(const uint1024_t &g, const uint1024_t &x, const uint1024_t &p);
+//uint1024_t mul_mod(const uint1024_t &a, const uint1024_t &b, const uint1024_t &m);
+
+//}

@@ -7,13 +7,15 @@
 	<typeinfo>
 	"shifres.hpp"
 
-1572737171 c:\users\user\desktop\hwИнф\Прог,2курс\001\shifres.hpp
-	"sh.h"
+1572852427 c:\users\user\desktop\hwИнф\Прог,2курс\001\shifres.hpp
 	"locker.h"
 	<fstream>
 	<iostream>
+	<boost/multiprecision/cpp_int.hpp>
+	<boost/random.hpp>
+	"sh.h"
 
-1572539236 c:\users\user\desktop\hwИнф\Прог,2курс\001\sh\sh.h
+1572852184 c:\users\user\desktop\hwИнф\Прог,2курс\001\sh\sh.h
 
 1572706833 source:c:\users\user\desktop\hwИнф\Прог,2курс\001\encoded_structure.cpp
 	"shifres.hpp"
@@ -27,11 +29,13 @@
 1572729246 source:c:\users\user\desktop\hwИнф\Прог,2курс\001\shamir.cpp
 	"shifres.hpp"
 
-1572727062 source:c:\users\user\desktop\hwИнф\Прог,2курс\001\el_ghamal.cpp
+1572742390 source:c:\users\user\desktop\hwИнф\Прог,2курс\001\el_ghamal.cpp
 	"shifres.hpp"
 
-1572727062 source:c:\users\user\desktop\hwИнф\Прог,2курс\001\rsa.cpp
+1572848215 source:c:\users\user\desktop\hwИнф\Прог,2курс\001\rsa.cpp
 	"shifres.hpp"
+	<boost/integer/mod_inverse.hpp>
+	<boost/integer/common_factor_rt.hpp>
 
 1572739902 c:\users\user\desktop\hwИнф\Прог,2курс\001\locker\locker.h
 	<stdint-gcc.h>

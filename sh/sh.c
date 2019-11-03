@@ -18,14 +18,20 @@ int __attribute__((__stdcall__)) DllMain(int hinstDLL, int fdwReason, void* lpvR
     return 1;
     }
 
-
-int g_pow_x_mod_p(int g, int x, int p) {
-    int64_t s = g%p;
-    for (; x > 1; x--) {
-        s*=g;
-        s%=p;
+uint32_t pows(uint32_t a, uint32_t x, uint32_t p) {
+    uint8_t offset = 31;
+    uint64_t y = 1;
+    for(;;offset--) {
+        y*=y;
+        y%=p;
+        if((x>>offset)&0x1) {
+            y*=a;
+            y%=p;
+        }
+        if(offset==0)
+            break;
     }
-    return s;
+    return y;
 }
 
 #define MOV(A, B, LEN) \
@@ -58,7 +64,7 @@ void choose_c_d(int *c, int *d, int p){ *c=2+rand()%(p-1-2); *d=reverse_c_mod_p(
 // el-ghamal`s
 int gen_k(int p){ return 1+rand()%(p-2); }
 int gen_c(int p){ return 2+rand()%(p-3); }
-int eval_d(int c, int g, int p){ return g_pow_x_mod_p(g, c, p); }
-int eval_r(int g, int k, int p){ return g_pow_x_mod_p(g, k, p); }
-int eval_e(int m, int d, int k, int p){ return (int)( ((int64_t) m * (int64_t) g_pow_x_mod_p(d, k, p))%p ); }
-int eval_m(int e, int r, int c, int p){ return (int)( ((int64_t) e * (int64_t) g_pow_x_mod_p(r, p-1-c, p))%p ); }
+int eval_d(int c, int g, int p){ return pows(g, c, p); }
+int eval_r(int g, int k, int p){ return pows(g, k, p); }
+int eval_e(int m, int d, int k, int p){ return (int)( ((int64_t) m * (int64_t) pows(d, k, p))%p ); }
+int eval_m(int e, int r, int c, int p){ return (int)( ((int64_t) e * (int64_t) pows(r, p-1-c, p))%p ); }

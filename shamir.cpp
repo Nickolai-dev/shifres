@@ -3,11 +3,11 @@
 Shamir::Shamir() {  }
 
 inline void Shamir::decode(int &byte) {
-    byte = g_pow_x_mod_p(byte, hiddenKey2, Environment::Instance().encrMaxNumber);
+    byte = pows(byte, hiddenKey2, Environment::Instance().encrMaxNumber);
 }
 
 inline void Shamir::encode(int &byte) {
-    byte = g_pow_x_mod_p(byte, hiddenKey1, Environment::Instance().encrMaxNumber);
+    byte = pows(byte, hiddenKey1, Environment::Instance().encrMaxNumber);
 }
 
 void Shamir::recipient_protocol() {
