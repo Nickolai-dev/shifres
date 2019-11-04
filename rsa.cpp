@@ -45,27 +45,15 @@ uint1024_t RSA::mod_inverse(const uint1024_t &a, const uint1024_t &p) {
 }
 
 RSA::RSA() {
-<<<<<<< HEAD
     boost::random::uniform_int_distribution<uint1024_t> rand( RSA::pows(2, 513, std::numeric_limits<uint512_t>::max()), std::numeric_limits<uint512_t>::max() );
     uint1024_t P = rand(gen), Q = rand(gen);
-=======
-    int t = time(NULL);
-    boost::random::uniform_int_distribution<uint1024_t> rand( RSA::pows(2, 513, std::numeric_limits<uint512_t>::max())+t, std::numeric_limits<uint512_t>::max()+t );
-    uint1024_t P = rand(gen)-t, Q = rand(gen)-t;
->>>>>>> 3acc26188f4c01d617f57187ba2cb37b14204694
     while(!ferma(P++)) if(P >= std::numeric_limits<uint512_t>::max()-2) { P = rand(gen); throw std::runtime_error("Something impossible happened"); }
     while(!ferma(Q++)) if(Q >= std::numeric_limits<uint512_t>::max()-2) { Q = rand(gen); throw std::runtime_error("Something impossible happened"); }
     sharedModulus = P*Q;
     uint1024_t eul = (P-1)*(Q-1);
-<<<<<<< HEAD
     rand = boost::random::uniform_int_distribution<uint1024_t>( RSA::pows(2, 513, std::numeric_limits<uint512_t>::max()), std::numeric_limits<uint512_t>::max()+RSA::pows(2, 513, std::numeric_limits<uint512_t>::max()) );
     auto gcd = boost::integer::gcd_evaluator<uint1024_t>();
     do { sharedExponent = rand(gen); } while(gcd(sharedExponent, eul) != 1);
-=======
-    rand = boost::random::uniform_int_distribution<uint1024_t>( RSA::pows(2, 513, std::numeric_limits<uint512_t>::max())+t, std::numeric_limits<uint512_t>::max()+RSA::pows(2, 513, std::numeric_limits<uint512_t>::max())+t );
-    auto gcd = boost::integer::gcd_evaluator<uint1024_t>();
-    do { sharedExponent = rand(gen)-t; } while(gcd(sharedExponent, eul) != 1);
->>>>>>> 3acc26188f4c01d617f57187ba2cb37b14204694
     secretExponent = RSA::mod_inverse(sharedExponent, eul);
 }
 

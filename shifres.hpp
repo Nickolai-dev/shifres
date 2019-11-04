@@ -91,11 +91,7 @@ class RSA : public Encoded_Structure {
         void recipient_protocol() override final;
         void dispatcher_protocol() override final;
     private:
-<<<<<<< HEAD
         uint1024_t secretExponent, takenModulus, takenExponent;
-=======
-        uint1024_t secretExponent;
->>>>>>> 3acc26188f4c01d617f57187ba2cb37b14204694
         void takeSharedKey() override;
         void giveSharedKey() override;
         inline void decode(int &byte) override;
