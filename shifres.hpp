@@ -87,11 +87,7 @@ class El_Ghamal : public Encoded_Structure {
 class RSA : public Encoded_Structure {
     public:
         RSA();
-<<<<<<< HEAD
         uint1024_t sharedKey;
-=======
-        boost::multiprecision::uint1024_t sharedKey;
->>>>>>> cb7d8689c56accbfcde010718295b478123384d6
         void recipient_protocol() override final;
         void dispatcher_protocol() override final;
     private:
@@ -99,15 +95,5 @@ class RSA : public Encoded_Structure {
         void giveSharedKey() override;
         inline void decode(int &byte) override;
         inline void encode(int &byte) override;
+        uint1024_t pows(const uint1024_t &a, const uint1024_t &x, const uint1024_t &p);
 };
-<<<<<<< HEAD
-
-//namespace utilities {
-
-//bool ferma(const uint1024_t &num);
-uint1024_t pows(const uint1024_t &g, const uint1024_t &x, const uint1024_t &p);
-//uint1024_t mul_mod(const uint1024_t &a, const uint1024_t &b, const uint1024_t &m);
-
-//}
-=======
->>>>>>> cb7d8689c56accbfcde010718295b478123384d6

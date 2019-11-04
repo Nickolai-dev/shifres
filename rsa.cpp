@@ -1,14 +1,9 @@
 #include "shifres.hpp"
 #include <boost/integer/mod_inverse.hpp>    // mod_inverse
-<<<<<<< HEAD
-=======
-#include <boost/math/special_functions/prime.hpp> // is_simple
->>>>>>> cb7d8689c56accbfcde010718295b478123384d6
 #include <boost/integer/common_factor_rt.hpp>  // gcd
 
 using namespace boost::multiprecision;
 using namespace boost::random;
-<<<<<<< HEAD
 /*
 boost::random::mt11213b gen;
 bool utilities::ferma(const uint1024_t &num) { // O(logN)
@@ -25,21 +20,26 @@ bool utilities::ferma(const uint1024_t &num) { // O(logN)
 	return true;
 }
 */
-typedef number<cpp_int_backend<2048, 2048, unsigned_magnitude, unchecked, void> > uint2048_t;
-uint1024_t pows(const uint1024_t &g, const uint1024_t &x, const uint1024_t &p) {
-    uint2048_t r = 1;
-    uint1024_t xx = x;
-    while (xx--) {
 
+uint1024_t RSA::pows(const uint1024_t &a, const uint1024_t &x, const uint1024_t &p) {
+    number<cpp_int_backend<2048, 2048, unsigned_magnitude, unchecked, void> > y = 1;
+    uint16_t offset = 1023;
+    for(;;offset--) {
+        y*=y;
+        y%=p;
+        if((x>>offset)&0x1) {
+            y*=a;
+            y%=p;
+        }
+        if(offset==0)
+            break;
     }
-    return static_cast<uint1024_t>(r);
+    return static_cast<uint1024_t>(y);
 }
-=======
->>>>>>> cb7d8689c56accbfcde010718295b478123384d6
 
 RSA::RSA() {
     //boost::random::uniform_int_distribution<uint1024_t> dist(1, std::numeric_limits<uint1024_t>::max());
-    cout << "pows: " << pows(2, std::numeric_limits<uint32_t>::max(), 30) << endl;
+    //cout << "pows: " << pows(2, std::numeric_limits<uint32_t>::max(), 30) << endl;
 }
 
 inline void RSA::decode(int &byte) {

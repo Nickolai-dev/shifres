@@ -5,6 +5,8 @@ bin/*
 *.lib
 *.def
 *.o
+*.depend
+*.layout
 *.
 !.gitignore
 rec
