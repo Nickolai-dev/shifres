@@ -1,25 +1,23 @@
 #include "shifres.hpp"
 #include <boost/integer/mod_inverse.hpp>    // mod_inverse
 #include <boost/integer/common_factor_rt.hpp>  // gcd
+#include <time.h>
 
 using namespace boost::multiprecision;
-using namespace boost::random;
-/*
-boost::random::mt11213b gen;
-bool utilities::ferma(const uint1024_t &num) { // O(logN)
-    boost::random::uniform_int_distribution<uint1024_t> rand(1, std::numeric_limits<uint1024_t>::max());
+
+bool RSA::ferma(const uint1024_t &num) { // O(logN)
     if(num == 2)
 		return true;
-	for(int i=0;i<100;i++){
-		uint1024_t a = (rand(utilities::gen) % (num - 2)) + 2;
+    boost::random::uniform_int_distribution<uint1024_t> rand(1, std::numeric_limits<uint1024_t>::max());
+	for(int i=0;i<200;i++){
+		uint1024_t a = (rand(gen) % (num - 2)) + 2;
 		if (boost::integer::gcd_evaluator<uint1024_t>()(a, num) != 1)
 			return false;
-		if( utilities::pows(a, num-1, num) != 1)
+		if( pows(a, num-1, num) != 1)
 			return false;
 	}
 	return true;
 }
-*/
 
 uint1024_t RSA::pows(const uint1024_t &a, const uint1024_t &x, const uint1024_t &p) {
     number<cpp_int_backend<2048, 2048, unsigned_magnitude, unchecked, void> > y = 1;
@@ -37,9 +35,28 @@ uint1024_t RSA::pows(const uint1024_t &a, const uint1024_t &x, const uint1024_t 
     return static_cast<uint1024_t>(y);
 }
 
+uint1024_t RSA::mod_inverse(const uint1024_t &a, const uint1024_t &p) {
+    number<cpp_int_backend<2048, 2048, signed_magnitude, unchecked, void> > u1=p,u2=0,v1=a,v2=1,t1,t2,q;
+    while (v1!=0) {
+        q=u1/v1; t1=u1%v1; t2=u2-q*v2;
+        u1=v1;u2=v2;v1=t1;v2=t2;
+    }
+    while(u2<0)u2+=p;
+    return static_cast<uint1024_t>(u2);
+}
+
 RSA::RSA() {
-    //boost::random::uniform_int_distribution<uint1024_t> dist(1, std::numeric_limits<uint1024_t>::max());
-    //cout << "pows: " << pows(2, std::numeric_limits<uint32_t>::max(), 30) << endl;
+    int t = time(NULL);
+    boost::random::uniform_int_distribution<uint1024_t> rand( RSA::pows(2, 513, std::numeric_limits<uint512_t>::max())+t, std::numeric_limits<uint512_t>::max()+t );
+    uint1024_t P = rand(gen)-t, Q = rand(gen)-t;
+    while(!ferma(P++)) if(P >= std::numeric_limits<uint512_t>::max()-2) { P = rand(gen); throw std::runtime_error("Something impossible happened"); }
+    while(!ferma(Q++)) if(Q >= std::numeric_limits<uint512_t>::max()-2) { Q = rand(gen); throw std::runtime_error("Something impossible happened"); }
+    sharedModulus = P*Q;
+    uint1024_t eul = (P-1)*(Q-1);
+    rand = boost::random::uniform_int_distribution<uint1024_t>( RSA::pows(2, 513, std::numeric_limits<uint512_t>::max())+t, std::numeric_limits<uint512_t>::max()+RSA::pows(2, 513, std::numeric_limits<uint512_t>::max())+t );
+    auto gcd = boost::integer::gcd_evaluator<uint1024_t>();
+    do { sharedExponent = rand(gen)-t; } while(gcd(sharedExponent, eul) != 1);
+    secretExponent = RSA::mod_inverse(sharedExponent, eul);
 }
 
 inline void RSA::decode(int &byte) {
@@ -65,4 +82,3 @@ void RSA::takeSharedKey() {
 void RSA::giveSharedKey() {
 
 }
-

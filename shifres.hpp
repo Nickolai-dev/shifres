@@ -87,13 +87,17 @@ class El_Ghamal : public Encoded_Structure {
 class RSA : public Encoded_Structure {
     public:
         RSA();
-        uint1024_t sharedKey;
+        uint1024_t sharedModulus, sharedExponent;
         void recipient_protocol() override final;
         void dispatcher_protocol() override final;
     private:
+        uint1024_t secretExponent;
         void takeSharedKey() override;
         void giveSharedKey() override;
         inline void decode(int &byte) override;
         inline void encode(int &byte) override;
         uint1024_t pows(const uint1024_t &a, const uint1024_t &x, const uint1024_t &p);
+        uint1024_t mod_inverse(const uint1024_t &a, const uint1024_t &p);
+        bool ferma(const uint1024_t& num);
+        boost::random::mt11213b gen;
 };
