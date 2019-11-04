@@ -10,13 +10,13 @@ inline void Diffi_Hellman::decode(int &byte) {  }
 
 inline void Diffi_Hellman::encode(int &byte) {  }
 
-void Diffi_Hellman::recipient_protocol() {
+void Diffi_Hellman::recipient_protocol(size_t buff_size) {
     Environment &Environment = Environment::Instance();
     takeSharedKey();
     evaluatedNumber = pows(takenSharedKey, hiddenKey, Environment.encrMaxNumber);
 }
 
-void Diffi_Hellman::dispatcher_protocol() {
+void Diffi_Hellman::dispatcher_protocol(size_t buff_size) {
     Environment &Environment = Environment::Instance();
     giveSharedKey();
     evaluatedNumber = pows(takenSharedKey, hiddenKey, Environment.encrMaxNumber);

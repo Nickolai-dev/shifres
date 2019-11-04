@@ -26,8 +26,8 @@ class Environment {
 class Encoded_Structure {
     public:
         int sharedKey;
-        virtual void recipient_protocol();
-        virtual void dispatcher_protocol();
+        virtual void recipient_protocol(size_t buff_size = 8);
+        virtual void dispatcher_protocol(size_t buff_size = 8);
         enum class FileStat{ EXIT_SUCCESS, FAILED, UNNAMED_ERROR };
     protected:
         virtual void decode(int &byte) = 0;
@@ -46,8 +46,8 @@ class Encoded_Structure {
 class Diffi_Hellman : public Encoded_Structure {
     public:
         Diffi_Hellman();
-        void recipient_protocol() override final;
-        void dispatcher_protocol() override final;
+        void recipient_protocol(size_t buff_size = 8) override final;
+        void dispatcher_protocol(size_t buff_size = 8) override final;
         int getEvaluatedNumber() { return evaluatedNumber; };
     private:
         inline void decode(int &byte) override;
@@ -59,8 +59,8 @@ class Diffi_Hellman : public Encoded_Structure {
 class Shamir : public Encoded_Structure {
     public:
         Shamir();
-        void recipient_protocol() override final;
-        void dispatcher_protocol() override final;
+        void recipient_protocol(size_t buff_size = 8) override final;
+        void dispatcher_protocol(size_t buff_size = 8) override final;
     private:
         inline void decode(int &byte) override;
         inline void encode(int &byte) override;
@@ -81,11 +81,13 @@ class RSA : public Encoded_Structure {
         RSA();
         uint1024_t sharedModulus, sharedExponent;
     private:
-        uint1024_t secretExponent, takenModulus, takenExponent;
+        uint1024_t hiddenExponent, takenModulus, takenExponent;
         void takeSharedKey() override;
         void giveSharedKey() override;
         inline void decode(int &byte) override;
         inline void encode(int &byte) override;
+        //void recipient_protocol(size_t buff_size = 136) override final;
+        //void dispatcher_protocol(size_t buff_size = 136) override final;
         uint1024_t pows(const uint1024_t &a, const uint1024_t &x, const uint1024_t &p);
         uint1024_t mod_inverse(const uint1024_t &a, const uint1024_t &p);
         bool ferma(const uint1024_t& num);
