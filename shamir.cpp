@@ -10,7 +10,7 @@ inline void Shamir::encode(int &byte) {
     byte = pows(byte, hiddenKey1, Environment::Instance().encrMaxNumber);
 }
 
-void Shamir::recipient_protocol() {
+void Shamir::recipient_protocol(size_t buff_size) {
     Environment &Environment = Environment::Instance();
     takeSharedKey();
     while(true){
@@ -36,7 +36,7 @@ void Shamir::recipient_protocol() {
     }
 }
 
-void Shamir::dispatcher_protocol() {
+void Shamir::dispatcher_protocol(size_t buff_size) {
     Environment &Environment = Environment::Instance();
     giveSharedKey();
     try {
