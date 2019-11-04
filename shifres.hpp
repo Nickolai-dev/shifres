@@ -80,7 +80,7 @@ class RSA : public Encoded_Structure {
     public:
         RSA();
         uint1024_t sharedModulus, sharedExponent;
-    //private:
+    private:
         uint1024_t hiddenExponent, takenModulus, takenExponent;
         void takeSharedKey() override;
         void giveSharedKey() override;
