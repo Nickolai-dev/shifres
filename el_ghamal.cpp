@@ -7,9 +7,8 @@ El_Ghamal::El_Ghamal() {
 }
 
 inline void El_Ghamal::decode(int &byte) {
-    Environment &Environment = Environment::Instance();
     int r = *(&byte), e = *(&byte+1);
-    byte = eval_m(e, r, hiddenKey, Environment.encrMaxNumber);
+    byte = eval_m(e, r, hiddenKey, Environment::Instance().encrMaxNumber);
 }
 
 inline void El_Ghamal::encode(int &byte) {
