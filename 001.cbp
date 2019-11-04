@@ -26,9 +26,6 @@
 				<Compiler>
 					<Add option="-O3" />
 				</Compiler>
-				<ResourceCompiler>
-					<Add option="-fpermissive" />
-				</ResourceCompiler>
 				<Linker>
 					<Add option="-s" />
 				</Linker>
