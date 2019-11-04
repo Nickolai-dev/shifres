@@ -66,35 +66,32 @@ inline void RSA::encode(int &byte) {
 }
 
 void RSA::recipient_protocol() {
-    cout << "Modulus: " << sharedModulus << endl;
     takeSharedKey();
-    cout << "Taken modulus: " << takenModulus << endl;
 }
 
 void RSA::dispatcher_protocol() {
-    cout << "Modulus: " << sharedModulus << endl;
     giveSharedKey();
-    cout << "Taken modulus: " << takenModulus << endl;
-    cout << "sizeof: " << sizeof(*this) << endl;
 }
 
 void RSA::takeSharedKey() {
-    /*waitTilReady(OREV_LOCKED);
-    putBytes(&sharedKey, 4);
+    waitTilReady(OREV_LOCKED);
+    uint1024_t arr[2]; arr[0] = sharedModulus, arr[1] = sharedExponent;
+    putBytes(arr, 272);
     waitTilReady(REV_UNLOCKED);
-    readBytes(&takenSharedKey, 4);
+    readBytes(arr, 272);
     unlock_reverse_channel();
-    unlock_straight_channel();*/
-
+    unlock_straight_channel();
+    takenModulus = arr[0], takenExponent = arr[1];
 }
 
 void RSA::giveSharedKey() {
-    /*waitTilReady(REV_STRT_UNLOCKED);
-    putBytes(&sharedKey, 4);
+    waitTilReady(REV_STRT_UNLOCKED);
+    uint1024_t arr[2]; arr[0] = sharedModulus, arr[1] = sharedExponent;
+    putBytes(arr, 272);
     waitTilReady(REV_LOCKED);
     unlock_straight_channel();
     waitTilReady(REV_STRT_UNLOCKED);
-    readBytes(&takenSharedKey, 4);
-    unlock_reverse_channel();*/
-
+    readBytes(arr, 272);
+    unlock_reverse_channel();
+    takenModulus = arr[0], takenExponent = arr[1];
 }

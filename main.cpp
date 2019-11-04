@@ -54,18 +54,21 @@ void emulateRecipient(Type type) {
         }
         case Type::EL_GHAMAL: {
             El_Ghamal session;
+            cout << "processing..." << endl;
             session.recipient_protocol();
             cout << "Got message! (output.txt)" << endl;
             break;
         }
         case Type::SHAMIR: {
             Shamir session;
+            cout << "processing..." << endl;
             session.recipient_protocol();
             cout << "Got message! (output.txt)" << endl;
             break;
         }
         case Type::RSA: {
             RSA session;
+            cout << "processing..." << endl;
             session.recipient_protocol();
             cout << "Got message! (output.txt)" << endl;
             break;
@@ -88,18 +91,21 @@ void emulateDispatcher(Type type) {
         }
         case Type::EL_GHAMAL: {
             El_Ghamal session;
+            cout << "processing..." << endl;
             session.dispatcher_protocol();
             cout << "Message input.txt was sent" << endl;
             break;
         }
         case Type::SHAMIR: {
             Shamir session;
+            cout << "processing..." << endl;
             session.dispatcher_protocol();
             cout << "Message input.txt was sent" << endl;
             break;
         }
         case Type::RSA: {
             RSA session;
+            cout << "processing..." << endl;
             session.dispatcher_protocol();
             cout << "Message input.txt was sent" << endl;
             break;
