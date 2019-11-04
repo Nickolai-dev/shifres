@@ -62,11 +62,3 @@ void Shamir::dispatcher_protocol() {
         sendEOF();
     }
 }
-
-void Shamir::takeSharedKey() {
-
-}
-
-void Shamir::giveSharedKey() {
-
-}

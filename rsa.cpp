@@ -65,14 +65,6 @@ inline void RSA::encode(int &byte) {
 
 }
 
-void RSA::recipient_protocol() {
-    takeSharedKey();
-}
-
-void RSA::dispatcher_protocol() {
-    giveSharedKey();
-}
-
 void RSA::takeSharedKey() {
     waitTilReady(OREV_LOCKED);
     uint1024_t arr[2]; arr[0] = sharedModulus, arr[1] = sharedExponent;

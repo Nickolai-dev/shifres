@@ -25,35 +25,34 @@ class Environment {
 
 class Encoded_Structure {
     public:
-        virtual void recipient_protocol() = 0;
-        virtual void dispatcher_protocol() = 0;
+        int sharedKey;
+        virtual void recipient_protocol();
+        virtual void dispatcher_protocol();
         enum class FileStat{ EXIT_SUCCESS, FAILED, UNNAMED_ERROR };
     protected:
-        inline virtual void decode(int &byte) = 0;
-        inline virtual void encode(int &byte) = 0;
-        virtual void takeSharedKey() = 0;
-        virtual void giveSharedKey() = 0;
+        virtual void decode(int &byte) = 0;
+        virtual void encode(int &byte) = 0;
+        virtual void takeSharedKey();
+        virtual void giveSharedKey();
         void waitTilReady(WaitMode m);
         uint8_t takeByte();
         uint8_t sendByte(uint8_t data);
         void sendEOF();
         void write(int byte);
         int read();
+        int takenSharedKey;
 };
 
 class Diffi_Hellman : public Encoded_Structure {
     public:
-        int sharedKey;
         Diffi_Hellman();
         void recipient_protocol() override final;
         void dispatcher_protocol() override final;
         int getEvaluatedNumber() { return evaluatedNumber; };
     private:
-        void takeSharedKey() override;
-        void giveSharedKey() override;
         inline void decode(int &byte) override;
         inline void encode(int &byte) override;
-        int hiddenKey, takenSharedKey, evaluatedNumber;
+        int hiddenKey, evaluatedNumber;
 
 };
 
@@ -63,8 +62,6 @@ class Shamir : public Encoded_Structure {
         void recipient_protocol() override final;
         void dispatcher_protocol() override final;
     private:
-        void takeSharedKey() override;
-        void giveSharedKey() override;
         inline void decode(int &byte) override;
         inline void encode(int &byte) override;
         int hiddenKey1, hiddenKey2;
@@ -72,14 +69,9 @@ class Shamir : public Encoded_Structure {
 
 class El_Ghamal : public Encoded_Structure {
     public:
-        int sharedKey;
         El_Ghamal();
-        void recipient_protocol() override final;
-        void dispatcher_protocol() override final;
     private:
-        int hiddenKey, takenSharedKey;
-        void takeSharedKey() override;
-        void giveSharedKey() override;
+        int hiddenKey;
         inline void decode(int &byte) override;
         inline void encode(int &byte) override;
 };
@@ -88,8 +80,6 @@ class RSA : public Encoded_Structure {
     public:
         RSA();
         uint1024_t sharedModulus, sharedExponent;
-        void recipient_protocol() override final;
-        void dispatcher_protocol() override final;
     private:
         uint1024_t secretExponent, takenModulus, takenExponent;
         void takeSharedKey() override;

@@ -101,3 +101,54 @@ void Encoded_Structure::sendEOF() {
     waitTilReady(REV_LOCKED);
     unlock_straight_channel();
 }
+
+void Encoded_Structure::recipient_protocol() {
+    takeSharedKey();
+    while(true) {
+        waitTilReady(OREV_LOCKED);
+        lock_straight_channel();
+        waitTilReady(REV_UNLOCKED);
+        int byte[2];
+        if(readBytes(byte, 8) == EOF) { write(EOF); unlock_reverse_channel(); unlock_straight_channel(); break; }
+        unlock_reverse_channel();
+        unlock_straight_channel();
+        decode(byte[0]);
+        write(byte[0]);
+    }
+}
+
+void Encoded_Structure::dispatcher_protocol() {
+    giveSharedKey();
+    try {
+        while(true) {
+            int byte[2] = { read(), 0 };
+            encode(byte[0]);
+            waitTilReady(REV_STRT_UNLOCKED);
+            putBytes(byte, 8);
+            waitTilReady(REV_LOCKED);
+            unlock_straight_channel();
+        }
+    }
+    catch (FileStat) {
+        sendEOF();
+    }
+}
+
+void Encoded_Structure::takeSharedKey() {
+    waitTilReady(OREV_LOCKED);
+    putBytes(&sharedKey, 4);
+    waitTilReady(REV_UNLOCKED);
+    readBytes(&takenSharedKey, 4);
+    unlock_reverse_channel();
+    unlock_straight_channel();
+}
+
+void Encoded_Structure::giveSharedKey() {
+    waitTilReady(REV_STRT_UNLOCKED);
+    putBytes(&sharedKey, 4);
+    waitTilReady(REV_LOCKED);
+    unlock_straight_channel();
+    waitTilReady(REV_STRT_UNLOCKED);
+    readBytes(&takenSharedKey, 4);
+    unlock_reverse_channel();
+}
