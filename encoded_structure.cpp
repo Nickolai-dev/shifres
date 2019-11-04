@@ -123,7 +123,7 @@ void Encoded_Structure::dispatcher_protocol(size_t buff_size) {
     try {
         while(true) {
             int byte[buff_size/4];
-            for(int i =0;i<buff_size/4;byte[i++]=1);
+            for(int i =0;i<buff_size/4;byte[i++]=1); // crutch for RSA
             byte[0] = read();
             encode(byte[0]);
             waitTilReady(REV_STRT_UNLOCKED);

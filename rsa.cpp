@@ -59,12 +59,10 @@ RSA::RSA() {
 }
 
 inline void RSA::decode(int &byte) {
-    int m = byte;
     *((uint1024_t*)&byte) = RSA::pows(*((uint1024_t*)&byte), hiddenExponent, sharedModulus);
 }
 
 inline void RSA::encode(int &byte) {
-    int m = byte;
     *((uint1024_t*)&byte) = RSA::pows(*((uint1024_t*)&byte), takenExponent, takenModulus);
 }
 
