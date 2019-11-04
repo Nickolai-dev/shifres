@@ -133,9 +133,42 @@ void chooseMode(Type type) {
     }
 };
 
-int main() {
-    Type type = chooseEncode();
-    chooseMode(type);
-    system("pause"); //TODO remove
+int main(int argc, char*argv[]) {
+    if(argc==1) {
+        Type type = chooseEncode();
+        chooseMode(type);
+        system("pause");
+    } else {
+        Environment &Environment = Environment::Instance();
+        Type type = Type::DIFFI_HELLMAN;
+        for(int i = 1; i < argc; i++) {
+            if(argv[i][0]!='-') { cout<<"Incorrect input"<<endl; return -1; }
+            else {
+                switch(argv[i][1]) {
+                    case 'i':
+                        Environment.input = string(argv[++i]);
+                        break;
+                    case 'o':
+                        Environment.output = string(argv[++i]);
+                        break;
+                    case 'b':
+                        Environment.enableBinary = true;
+                        break;
+                    case 'a': {
+                        int t = atoi(argv[++i]);
+                        if(t < 1 || t > 4) throw std::runtime_error("Incorrect input!");
+                        type = static_cast<Type>(t);
+                        break;
+                    }
+                    case 'r':
+                        emulateRecipient(type);
+                        break;
+                    case 'd':
+                        emulateDispatcher(type);
+                        break;
+                }
+            }
+        }
+    }
     return 0;
 }

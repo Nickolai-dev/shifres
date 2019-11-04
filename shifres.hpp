@@ -15,6 +15,7 @@ class Environment {
     public:
         int encrMaxNumber, encrSuppNumber;
         string input, output;
+        bool enableBinary;
         static Environment& Instance() { static Environment s; return s; }
     private:
         Environment() { encrMaxNumber = 1000667, encrSuppNumber = 500333; input = "input.txt", output = "output.txt"; }
