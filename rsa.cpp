@@ -1,9 +1,14 @@
 #include "shifres.hpp"
 #include <boost/integer/mod_inverse.hpp>    // mod_inverse
+<<<<<<< HEAD
+=======
+#include <boost/math/special_functions/prime.hpp> // is_simple
+>>>>>>> cb7d8689c56accbfcde010718295b478123384d6
 #include <boost/integer/common_factor_rt.hpp>  // gcd
 
 using namespace boost::multiprecision;
 using namespace boost::random;
+<<<<<<< HEAD
 /*
 boost::random::mt11213b gen;
 bool utilities::ferma(const uint1024_t &num) { // O(logN)
@@ -29,6 +34,8 @@ uint1024_t pows(const uint1024_t &g, const uint1024_t &x, const uint1024_t &p) {
     }
     return static_cast<uint1024_t>(r);
 }
+=======
+>>>>>>> cb7d8689c56accbfcde010718295b478123384d6
 
 RSA::RSA() {
     //boost::random::uniform_int_distribution<uint1024_t> dist(1, std::numeric_limits<uint1024_t>::max());
