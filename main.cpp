@@ -140,9 +140,10 @@ int main(int argc, char*argv[]) {
         system("pause");
     } else {
         Environment &Environment = Environment::Instance();
-        Type type = Type::DIFFI_HELLMAN;
+        Type type = static_cast<Type>(0);
+        void (*f)(Type) = nullptr;
         for(int i = 1; i < argc; i++) {
-            if(argv[i][0]!='-') { cout<<"Incorrect input"<<endl; return -1; }
+            if(argv[i][0]!='-') throw std::runtime_error("Incorrect input\n");
             else {
                 switch(argv[i][1]) {
                     case 'i':
@@ -154,21 +155,26 @@ int main(int argc, char*argv[]) {
                     case 'b':
                         Environment.enableBinary = true;
                         break;
-                    case 'a': {
-                        int t = atoi(argv[++i]);
-                        if(t < 1 || t > 4) throw std::runtime_error("Incorrect input!");
-                        type = static_cast<Type>(t);
+                    case '-': {
+                        string str(argv[i]+2);
+                        if(str==string("diffi-hellman")) type = Type::DIFFI_HELLMAN;
+                        else if (str==string("shamir"))  type = Type::SHAMIR;
+                        else if (str==string("el-ghamal"))  type = Type::EL_GHAMAL;
+                        else if (str==string("rsa"))  type = Type::RSA;
+                        else throw std::runtime_error("Incorrect input\n");
                         break;
                     }
                     case 'r':
-                        emulateRecipient(type);
+                        f = emulateRecipient;
                         break;
                     case 'd':
-                        emulateDispatcher(type);
+                        f = emulateDispatcher;
                         break;
                 }
             }
         }
+        if(f == nullptr || type == static_cast<Type>(0)) throw std::runtime_error("Incorrect input\n");
+        f(type);
     }
     return 0;
 }
