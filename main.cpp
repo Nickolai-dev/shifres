@@ -69,7 +69,7 @@ void emulateRecipient(Type type) {
         case Type::RSA: {
             RSA session;
             cout << "processing..." << endl;
-            session.recipient_protocol(136);
+            session.recipient_protocol();
             cout << "Got message! (output.txt)" << endl;
             break;
         }
@@ -106,7 +106,7 @@ void emulateDispatcher(Type type) {
         case Type::RSA: {
             RSA session;
             cout << "processing..." << endl;
-            session.dispatcher_protocol(136);
+            session.dispatcher_protocol();
             cout << "Message input.txt was sent" << endl;
             break;
         }

@@ -102,32 +102,40 @@ void Encoded_Structure::sendEOF() {
     unlock_straight_channel();
 }
 
-void Encoded_Structure::recipient_protocol(size_t buff_size) {
+void Encoded_Structure::recipient_protocol() {
+    int sz = 1;
+    Encoded_Structure* r = dynamic_cast<RSA*>(this);
+    if(r)sz = 34;
+    r = dynamic_cast<El_Ghamal*>(this);
+    if(r)sz = 2;
     takeSharedKey();
     while(true) {
         waitTilReady(OREV_LOCKED);
         lock_straight_channel();
         waitTilReady(REV_UNLOCKED);
-        int byte[buff_size/4];
-        for(int i =0;i<buff_size/4;byte[i++]=1); //WTF???????????????????????????????????????????????????????????????????????????????????????????????????????????????????????????????????????????????????????????????????????????????????? was founded by scientific poke
-        if(readBytes(byte, buff_size) == EOF) { write(EOF); unlock_reverse_channel(); unlock_straight_channel(); break; }
+        int byte[sz] = {0};
+        if(readBytes(byte, sz*4) == EOF) { write(EOF); unlock_reverse_channel(); unlock_straight_channel(); break; }
         unlock_reverse_channel();
         unlock_straight_channel();
-        decode(byte[0]);
+        decode(byte);
         write(byte[0]);
     }
 }
 
-void Encoded_Structure::dispatcher_protocol(size_t buff_size) {
+void Encoded_Structure::dispatcher_protocol() {
+    int sz = 1;
+    Encoded_Structure* r = dynamic_cast<RSA*>(this);
+    if(r)sz = 34;
+    r = dynamic_cast<El_Ghamal*>(this);
+    if(r)sz = 2;
     giveSharedKey();
     try {
         while(true) {
-            int byte[buff_size/4];
-            for(int i =0;i<buff_size/4;byte[i++]=1); // crutch for RSA
+            int byte[sz] = {0};
             byte[0] = read();
-            encode(byte[0]);
+            encode(byte);
             waitTilReady(REV_STRT_UNLOCKED);
-            putBytes(byte, buff_size);
+            putBytes(byte, sz*4);
             waitTilReady(REV_LOCKED);
             unlock_straight_channel();
         }

@@ -4,7 +4,7 @@
 
 using namespace boost::multiprecision;
 
-bool RSA::ferma(const uint1024_t &num) { // O(logN)
+inline bool RSA::ferma(const uint1024_t &num) { // O(logN)
     if(num == 2)
 		return true;
     boost::random::uniform_int_distribution<uint1024_t> rand(1, std::numeric_limits<uint1024_t>::max());
@@ -18,7 +18,7 @@ bool RSA::ferma(const uint1024_t &num) { // O(logN)
 	return true;
 }
 
-uint1024_t RSA::pows(const uint1024_t &a, const uint1024_t &x, const uint1024_t &p) {
+inline uint1024_t RSA::pows(const uint1024_t &a, const uint1024_t &x, const uint1024_t &p) {
     number<cpp_int_backend<2048, 2048, unsigned_magnitude, unchecked, void> > y = 1;
     uint16_t offset = 1023;
     for(;;offset--) {
@@ -34,7 +34,7 @@ uint1024_t RSA::pows(const uint1024_t &a, const uint1024_t &x, const uint1024_t 
     return static_cast<uint1024_t>(y);
 }
 
-uint1024_t RSA::mod_inverse(const uint1024_t &a, const uint1024_t &p) {
+inline uint1024_t RSA::mod_inverse(const uint1024_t &a, const uint1024_t &p) {
     number<cpp_int_backend<2048, 2048, signed_magnitude, unchecked, void> > u1=p,u2=0,v1=a,v2=1,t1,t2,q;
     while (v1!=0) {
         q=u1/v1; t1=u1%v1; t2=u2-q*v2;
@@ -48,8 +48,8 @@ RSA::RSA() {
     int t = time(NULL);
     boost::random::uniform_int_distribution<uint1024_t> rand( RSA::pows(2, 510, std::numeric_limits<uint512_t>::max())-t, std::numeric_limits<uint512_t>::max()-t );
     uint1024_t P = rand(gen)+t, Q = rand(gen)+t;
-    while(!ferma(++P)) if(P >= std::numeric_limits<uint512_t>::max()-2) { P = rand(gen)+t; throw std::runtime_error("Something impossible happened..."); }
-    while(!ferma(++Q)) if(Q >= std::numeric_limits<uint512_t>::max()-2) { Q = rand(gen)+t; throw std::runtime_error("Something impossible happened..."); }
+    while(!ferma(++P)) if(P >= std::numeric_limits<uint512_t>::max()-2) { P = rand(gen)+t; }
+    while(!ferma(++Q)) if(Q >= std::numeric_limits<uint512_t>::max()-2) { Q = rand(gen)+t; }
     sharedModulus = P*Q;
     uint1024_t eul = (P-1)*(Q-1);
     rand = boost::random::uniform_int_distribution<uint1024_t>( RSA::pows(2, 510, std::numeric_limits<uint512_t>::max())-t, sharedModulus-t );
@@ -58,12 +58,14 @@ RSA::RSA() {
     hiddenExponent = RSA::mod_inverse(sharedExponent, eul);
 }
 
-inline void RSA::decode(int &byte) {
-    *((uint1024_t*)&byte) = RSA::pows(*((uint1024_t*)&byte), hiddenExponent, sharedModulus);
+inline void RSA::decode(void* data) {
+    uint1024_t n = *((uint1024_t*)data);
+    *((uint1024_t*)data) = RSA::pows(n, hiddenExponent, sharedModulus);
 }
 
-inline void RSA::encode(int &byte) {
-    *((uint1024_t*)&byte) = RSA::pows(*((uint1024_t*)&byte), takenExponent, takenModulus);
+inline void RSA::encode(void* data) {
+    uint1024_t n = static_cast<uint1024_t>( *((int*)data) );
+    *((uint1024_t*)data) = RSA::pows(n, takenExponent, takenModulus);
 }
 
 void RSA::takeSharedKey() {
