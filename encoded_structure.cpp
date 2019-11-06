@@ -163,3 +163,19 @@ void Encoded_Structure::giveSharedKey() {
     readBytes(&takenSharedKey, 4);
     unlock_reverse_channel();
 }
+
+uint32_t Environment::pows(uint32_t a, uint32_t x, uint32_t p) {
+    uint8_t offset = 31;
+    uint64_t y = 1;
+    for(;;offset--) {
+        y*=y;
+        y%=p;
+        if((x>>offset)&0x1) {
+            y*=a;
+            y%=p;
+        }
+        if(offset==0)
+            break;
+    }
+    return y;
+}

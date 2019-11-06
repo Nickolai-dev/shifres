@@ -1,20 +1,22 @@
 #include "shifres.hpp"
+#include <boost/integer/common_factor_rt.hpp>
+#include <boost/integer/mod_inverse.hpp>
+#include <time.h>
 
 Shamir::Shamir() {  }
 
 inline void Shamir::decode(void* data) {
-    *((int*)data) = pows(*((int*)data), hiddenKey2, Environment::Instance().encrMaxNumber);
+    *((int*)data) = Environment::pows(*((int*)data), hiddenKey2, Environment::Instance().encrMaxNumber);
 }
 
 inline void Shamir::encode(void* data) {
-    *((int*)data) = pows(*((int*)data), hiddenKey1, Environment::Instance().encrMaxNumber);
+    *((int*)data) = Environment::pows(*((int*)data), hiddenKey1, Environment::Instance().encrMaxNumber);
 }
 
 void Shamir::recipient_protocol() {
-    Environment &Environment = Environment::Instance();
     takeSharedKey();
     while(true){
-        choose_c_d(&hiddenKey1, &hiddenKey2, Environment.encrMaxNumber);
+        choose_c_d(hiddenKey1, hiddenKey2);
         waitTilReady(OREV_LOCKED);
         lock_straight_channel();
         waitTilReady(REV_UNLOCKED);
@@ -37,11 +39,10 @@ void Shamir::recipient_protocol() {
 }
 
 void Shamir::dispatcher_protocol() {
-    Environment &Environment = Environment::Instance();
     giveSharedKey();
     try {
         while(true) {
-            choose_c_d(&hiddenKey1, &hiddenKey2, Environment.encrMaxNumber);
+            choose_c_d(hiddenKey1, hiddenKey2);
             int byte = read();
             encode(&byte);
             waitTilReady(REV_STRT_UNLOCKED);
@@ -61,4 +62,14 @@ void Shamir::dispatcher_protocol() {
     } catch(FileStat) {
         sendEOF();
     }
+}
+
+void Shamir::choose_c_d(int &c, int &d) {
+    static Environment &Environment = Environment::Instance();
+    boost::random::uniform_int_distribution<int> rand(1000, Environment.encrMaxNumber-3-1000+time(NULL)%1000);
+    err: c = rand(Environment.gen);
+    while(boost::integer::gcd_evaluator<int>()(++c, Environment.encrMaxNumber-1) != 1)
+        if(c >= Environment.encrMaxNumber-1000) { c = rand(Environment.gen); }
+    d = boost::integer::mod_inverse(c, Environment.encrMaxNumber-1);
+    if(d==0) goto err;
 }

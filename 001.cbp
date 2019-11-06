@@ -37,18 +37,16 @@
 			<Add option="-Wall" />
 			<Add option="-fexceptions" />
 			<Add directory="locker" />
-			<Add directory="sh" />
 		</Compiler>
 		<Linker>
 			<Add library="locker" />
-			<Add library="sh" />
 			<Add directory="locker/bin/Release" />
-			<Add directory="sh/bin/Release" />
 		</Linker>
 		<Unit filename="diffi_hellman.cpp" />
 		<Unit filename="el_ghamal.cpp" />
 		<Unit filename="encoded_structure.cpp" />
 		<Unit filename="main.cpp" />
+		<Unit filename="other_shifres.cpp" />
 		<Unit filename="rsa.cpp" />
 		<Unit filename="shamir.cpp" />
 		<Unit filename="shifres.hpp" />

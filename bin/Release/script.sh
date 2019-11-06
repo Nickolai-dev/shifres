@@ -32,4 +32,6 @@ then
 rm ./.recipient
 fi
 
+cat output.txt
+
 fi

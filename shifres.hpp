@@ -4,7 +4,6 @@
 #include <boost/multiprecision/cpp_int.hpp> //1_71_0    // I could place this only in .hpp?
 #include <boost/random.hpp>                             //
 #undef EXIT_SUCCESS
-#include "sh.h"
 
 enum Mode {RECIPIENT=1, DISPATCHER};
 
@@ -16,7 +15,9 @@ class Environment {
         int encrMaxNumber, encrSuppNumber;
         string input, output;
         bool enableBinary;
+        boost::random::mt11213b gen;
         static Environment& Instance() { static Environment s; return s; }
+        static uint32_t pows(uint32_t a, uint32_t x, uint32_t p);
     private:
         Environment() { encrMaxNumber = 1000667, encrSuppNumber = 500333; input = "input.txt", output = "output.txt"; }
         ~Environment() {  }
@@ -63,6 +64,7 @@ class Shamir : public Encoded_Structure {
         void recipient_protocol() override final;
         void dispatcher_protocol() override final;
     private:
+        void choose_c_d(int &c, int &d);
         inline void decode(void* data) override;
         inline void encode(void* data) override;
         int hiddenKey1, hiddenKey2;
@@ -90,7 +92,6 @@ class RSA : public Encoded_Structure {
         uint1024_t pows(const uint1024_t &a, const uint1024_t &x, const uint1024_t &p);
         uint1024_t mod_inverse(const uint1024_t &a, const uint1024_t &p);
         bool ferma(const uint1024_t& num);
-        boost::random::mt11213b gen;
 };
 
 class Caesar : public Encoded_Structure {

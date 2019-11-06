@@ -1,15 +1,16 @@
 #include "shifres.hpp"
-#include <boost/integer/common_factor_rt.hpp>  // gcd
+#include <boost/integer/common_factor_rt.hpp>
 #include <time.h>
 
 using namespace boost::multiprecision;
 
 inline bool RSA::ferma(const uint1024_t &num) { // O(logN)
+    Environment &Environment = Environment::Instance();
     if(num == 2)
 		return true;
     boost::random::uniform_int_distribution<uint1024_t> rand(1, std::numeric_limits<uint1024_t>::max());
 	for(int i=0;i<200;i++){
-		uint1024_t a = (rand(gen) % (num - 2)) + 2;
+		uint1024_t a = (rand(Environment.gen) % (num - 2)) + 2;
 		if (boost::integer::gcd_evaluator<uint1024_t>()(a, num) != 1)
 			return false;
 		if( pows(a, num-1, num) != 1)
@@ -45,16 +46,17 @@ inline uint1024_t RSA::mod_inverse(const uint1024_t &a, const uint1024_t &p) {
 }
 
 RSA::RSA() {
+    Environment &Environment = Environment::Instance();
     int t = time(NULL);
     boost::random::uniform_int_distribution<uint1024_t> rand( RSA::pows(2, 510, std::numeric_limits<uint512_t>::max())-t, std::numeric_limits<uint512_t>::max()-t );
-    uint1024_t P = rand(gen)+t, Q = rand(gen)+t;
-    while(!ferma(++P)) if(P >= std::numeric_limits<uint512_t>::max()-2) { P = rand(gen)+t; }
-    while(!ferma(++Q)) if(Q >= std::numeric_limits<uint512_t>::max()-2) { Q = rand(gen)+t; }
+    uint1024_t P = rand(Environment.gen)+t, Q = rand(Environment.gen)+t;
+    while(!ferma(++P)) if(P >= std::numeric_limits<uint512_t>::max()-2) { P = rand(Environment.gen)+t; }
+    while(!ferma(++Q)) if(Q >= std::numeric_limits<uint512_t>::max()-2) { Q = rand(Environment.gen)+t; }
     sharedModulus = P*Q;
     uint1024_t eul = (P-1)*(Q-1);
     rand = boost::random::uniform_int_distribution<uint1024_t>( RSA::pows(2, 510, std::numeric_limits<uint512_t>::max())-t, sharedModulus-t );
     auto gcd = boost::integer::gcd_evaluator<uint1024_t>();
-    do { sharedExponent = rand(gen)+t; } while(gcd(sharedExponent, eul) != 1);
+    do { sharedExponent = rand(Environment.gen)+t; } while(gcd(sharedExponent, eul) != 1);
     hiddenExponent = RSA::mod_inverse(sharedExponent, eul);
 }
 
