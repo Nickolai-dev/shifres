@@ -2,6 +2,10 @@ echo '1 - Shamir`s
 2 - Diffi-Hellman`s
 3 - RSA
 4 - El-Ghamal`s
+5 - Caesar
+6 - Atbash
+7 - Gronsfield
+8 - by table
 Enter type of simulated encryption algorythm: '
 read T
 

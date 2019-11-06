@@ -92,3 +92,38 @@ class RSA : public Encoded_Structure {
         bool ferma(const uint1024_t& num);
         boost::random::mt11213b gen;
 };
+
+class Caesar : public Encoded_Structure {
+    public:
+        Caesar();
+    private:
+        inline void decode(void* data) override;
+        inline void encode(void* data) override;
+        static const int key;
+};
+
+class Atbash : public Encoded_Structure {
+    public:
+        Atbash();
+    private:
+        inline void decode(void* data) override;
+        inline void encode(void* data) override;
+};
+
+class Gronsfield : public Encoded_Structure {
+    public:
+        Gronsfield();
+    private:
+        inline void decode(void* data) override;
+        inline void encode(void* data) override;
+        static const int key[];
+};
+
+class Tablet : public Encoded_Structure {
+    public:
+        Tablet();
+    private:
+        inline void decode(void* data) override;
+        inline void encode(void* data) override;
+        static const uint8_t table[256];
+};

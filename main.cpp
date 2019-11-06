@@ -4,7 +4,7 @@
 
 using namespace std;
 
-enum class Type {SHAMIR=1, DIFFI_HELLMAN, RSA, EL_GHAMAL};
+enum class Type {SHAMIR=1, DIFFI_HELLMAN, RSA, EL_GHAMAL, CAESAR, ATBASH, GRONSFIELD, TABLET};
 
 template <typename Enumeration>
 auto as_integer(Enumeration const value) -> typename std::underlying_type<Enumeration>::type {
@@ -13,7 +13,7 @@ auto as_integer(Enumeration const value) -> typename std::underlying_type<Enumer
 template<>
 constexpr auto as_integer<Type>(Type const value) -> typename std::underlying_type<Type>::type {
     int n = static_cast<typename std::underlying_type<Type>::type>(value);
-    if (n < 1 || n > 4)
+    if (n < 1 || n > 8)
         throw std::runtime_error("Incorrect input");
     return n;
 }
@@ -25,6 +25,10 @@ Type chooseEncode() {
             "2 - Diffi-Hellman`s\n"
             "3 - RSA\n"
             "4 - El-Ghamal`s\n"
+            "5 - Caesar\n"
+            "6 - Atbash\n"
+            "7 - Gronsfield\n"
+            "8 - By table\n"
             "Enter type of simulated encryption algorythm: ";
     cin >> t;
     cout << endl;
@@ -73,6 +77,34 @@ void emulateRecipient(Type type) {
             cout << "Got message! (output.txt)" << endl;
             break;
         }
+        case Type::CAESAR: {
+            Caesar session;
+            cout << "processing..." << endl;
+            session.recipient_protocol();
+            cout << "Got message! (output.txt)" << endl;
+            break;
+        }
+        case Type::ATBASH: {
+            Atbash session;
+            cout << "processing..." << endl;
+            session.recipient_protocol();
+            cout << "Got message! (output.txt)" << endl;
+            break;
+        }
+        case Type::GRONSFIELD: {
+            Gronsfield session;
+            cout << "processing..." << endl;
+            session.recipient_protocol();
+            cout << "Got message! (output.txt)" << endl;
+            break;
+        }
+        case Type::TABLET: {
+            Tablet session;
+            cout << "processing..." << endl;
+            session.recipient_protocol();
+            cout << "Got message! (output.txt)" << endl;
+            break;
+        }
     }
 }
 
@@ -105,6 +137,34 @@ void emulateDispatcher(Type type) {
         }
         case Type::RSA: {
             RSA session;
+            cout << "processing..." << endl;
+            session.dispatcher_protocol();
+            cout << "Message input.txt was sent" << endl;
+            break;
+        }
+        case Type::CAESAR: {
+            Caesar session;
+            cout << "processing..." << endl;
+            session.dispatcher_protocol();
+            cout << "Message input.txt was sent" << endl;
+            break;
+        }
+        case Type::ATBASH: {
+            Atbash session;
+            cout << "processing..." << endl;
+            session.dispatcher_protocol();
+            cout << "Message input.txt was sent" << endl;
+            break;
+        }
+        case Type::GRONSFIELD: {
+            Gronsfield session;
+            cout << "processing..." << endl;
+            session.dispatcher_protocol();
+            cout << "Message input.txt was sent" << endl;
+            break;
+        }
+        case Type::TABLET: {
+            Tablet session;
             cout << "processing..." << endl;
             session.dispatcher_protocol();
             cout << "Message input.txt was sent" << endl;
@@ -161,6 +221,10 @@ int main(int argc, char*argv[]) {
                         else if (str==string("shamir"))  type = Type::SHAMIR;
                         else if (str==string("el-ghamal"))  type = Type::EL_GHAMAL;
                         else if (str==string("rsa"))  type = Type::RSA;
+                        else if (str==string("caesar"))  type = Type::CAESAR;
+                        else if (str==string("atbash"))  type = Type::ATBASH;
+                        else if (str==string("gronsfield"))  type = Type::GRONSFIELD;
+                        else if (str==string("tablet"))  type = Type::TABLET;
                         else throw std::runtime_error("Incorrect input\n");
                         break;
                     }
